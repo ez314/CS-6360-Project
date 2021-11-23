@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% block title %}Product Detail{% endblock %} 
+{% block content %}
+  
+
+
+  <div class="container-fluid">
+    <div class="row no-gutters">
+      <div class="col-xl-8">
+          <div class="content-images">
+              <div class="row no-gutters">
+                <div class="col-xl-4 diff-images">
+                  <p><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg" class="rounded mx-auto d-block" width="100" alt=""></p>
+                  <p><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" class="rounded mx-auto d-block" width="100" alt=""></p>
+                  <p><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg" class="rounded mx-auto d-block" width="100" alt=""></p>
+                  <p><img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg" class="rounded mx-auto d-block" width="100" alt=""></p>
+                </div>
+                <div class="col-xl-8 preview-img">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg" class="img-fluid" id="preview-image" width ="600" alt="">
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="parameter">
+          <h3> {{ prod.Name }}</h3>
+          <p> {{ prod.ItemID }}</p>
+          <h6> Description</h6>
+          <p> {{ prod.Description }}</p>
+          <h6>Sold By</h6>
+          <p> {{ seller.Name }}</p>
+          {{ seller.rating}}
+          {% for i in range(0,5 )%}
+            <span class="fa fa-star" style=" color: yellow; font-size:30px;"></span>
+          {% endfor %}
+          
+
+          <ul class="nav nav-tabs mb-3 justify-content-center" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="pills-high-bid-tab" data-toggle="pill" href="#pills-high-bids" role="tab" aria-controls="pills-high-bids" aria-selected="true">Highest Bid</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-all-bids-tab" data-toggle="pill" href="#pills-all-bids" role="tab" aria-controls="pills-all-bids" aria-selected="false">All Bids</a>
+            </li>
+          </ul>
+      
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-high-bids" role="tabpanel" aria-labelledby="pills-high-bids-tab">
+                {{ highestBid }}
+            </div>
+            <div class="tab-pane fade" id="pills-all-bids" role="tabpanel" aria-labelledby="pills-all-bids-tab">
+              <table>
+                <tr>
+                  <th>Buyer ID</th>
+                  <th>Bidding Time</th>
+                  <th>Price</th>
+                </tr>
+                {% for buyer in bidderList %}
+                  <tr>
+                    <td> {{ buyer['BuyerID']}} </td>
+                    <td> {{ buyer['BiddingTime']}}</td>
+                    <td> {{ buyer['Price']}}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+          <br>
+          <br>
+          <form method="post" action="/product/{{ prod.ItemID }}">
+            <input type="number" class="form-control rounded" placeholder="Bid Price" name="bidValue" value="{{ highestBid }}" step="{{ prod.BidIncrement }}"/>
+            <button type="submit" class="btn btn-outline-primary">Bid Now</button>
+          </form>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
