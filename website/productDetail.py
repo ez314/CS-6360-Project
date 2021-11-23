@@ -8,9 +8,11 @@ def product_Detail(itemId):
     if request.method == 'GET':
         seller = {'Name':'Utsav', 'rating': 3 }
         prod = {'ItemID': itemId, 'Name' : 'Watch', 
-                'Description': 'Hello this is just a trial Product', 
+                'Description': 'Hello this is just a trial Product',
+                'Photo':'https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg', 
                 'StartingBid': 100, 'BidIncrement': 3, 'StartDate': '2021-05-20', 
-                'EndDate' : '2021-12-05'}
+                'EndDate' : '2021-12-05', 
+                'SellerID' : 'abc345'}
         bidderList = [{'BuyerID':101, 'BiddingTime':'2021-05-09', 'Price':218},  
                     {'BuyerID':211, 'BiddingTime':'2021-05-09', 'Price':115},
                     {'BuyerID':899, 'BiddingTime':'2021-05-09', 'Price':112},
