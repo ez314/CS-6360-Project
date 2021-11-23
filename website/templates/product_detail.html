@@ -28,9 +28,12 @@
           <p> {{ prod.Description }}</p>
           <h6>Sold By</h6>
           <p> {{ seller.Name }}</p>
-          {{ seller.rating}}
-          {% for i in range(0,5 )%}
+         
+          {% for i in range(0, seller.rating )%}
             <span class="fa fa-star" style=" color: yellow; font-size:30px;"></span>
+          {% endfor %}
+          {% for i in range(seller.rating, 5) %}
+            <span class="fa fa-star" style="font-size:30px;"></span>
           {% endfor %}
           
 
