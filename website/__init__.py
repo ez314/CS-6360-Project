@@ -29,7 +29,7 @@ def create_app():
     app.register_blueprint(prodDetail)
 
     database.db = SQLAlchemy(app)
-    print('database test:', database.db.session.query(column('BuyerID'), column('Address'), column('City')).from_statement(text('SELECT * FROM ONLINE_AUCTION.Buyer;')).all())
+    print('database test:', database.db.session.execute((text('SELECT * FROM ONLINE_AUCTION.Buyer;'))).all())
 
     return app
 

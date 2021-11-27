@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %}
+{% block content %}
+    <h1>Register your account below</h1>
+    {% if info %}
+        <div>{{ info }}</div>
+    {% endif %}
+    <form>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="phone">Phone Number (10 digits, no dash):</label><br>
+        <input type="tel" id="phone" name="phone" pattern="\d{10}" required><br><br>
+
+        <label for="address">Home Address:</label><br>
+        <input type="text" id="address" name="address" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Password (8-20 characters, must have letter and number):</label><br>
+        <input type="password" id="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$"
+               required><br><br>
+
+        <label for="account-type-select">Account type:</label><br>
+        <input type="radio" id="account-type-buyer" name="account-type" value="buyer" onclick="showHideInputs()" checked>
+        <label for="account-type-buyer">Buyer</label><br>
+        <input type="radio" id="account-type-seller" name="account-type" value="seller" onclick="showHideInputs()">
+        <label for="account-type-seller">Seller</label><br><br>
+
+        <div id="buyer-options" style="display:block">
+            <label for="shipping-address">Shipping Address:</label><br>
+            <input type="text" id="shipping-address" name="shipping-address"><br><br>
+            <label for="city">City:</label><br>
+            <input type="text" id="city" name="city"><br><br>
+        </div>
+        <div id="seller-options" style="display:none">
+            <label for="account-num">Account Number (5-17 digits):</label><br>
+            <input type="text" id="account-num" name="account-num" pattern="\d{5,17"><br><br>
+            <label for="routing-num">Routing Number (9 digits):</label><br>
+            <input type="text" id="routing-num" name="routing-num" pattern="\d{9}"><br><br>
+        </div>
+
+        <input type="submit" value="Sign Up">
+    </form>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+
+        function showHideInputs() {
+            if (document.getElementById('account-type-buyer').checked) {
+                document.getElementById('buyer-options').style.display = 'block';
+                document.getElementById('seller-options').style.display = 'none';
+            } else if (document.getElementById('account-type-seller').checked) {
+                document.getElementById('buyer-options').style.display = 'none';
+                document.getElementById('seller-options').style.display = 'block';
+            } else {
+                document.getElementById('buyer-options').style.display = 'none';
+                document.getElementById('seller-options').style.display = 'none';
+            }
+
+        }
+
+    </script>
+{% endblock %}
