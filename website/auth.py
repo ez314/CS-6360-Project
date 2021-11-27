@@ -15,7 +15,7 @@ def login():
             print(res)
 
             if not res:
-                return render_template("login.html", invalid="User not found")
+                return render_template("login.html", info="User not found")
 
             password = res[0][0]
             if request.args.get('password') == password:
@@ -25,7 +25,7 @@ def login():
                 session['login.password'] = request.args.get('password')
                 return redirect(url_for('views.home'))
             else:
-                return render_template("login.html", invalid='Credentials not accepted')
+                return render_template("login.html", info='Credentials not accepted')
         else:
             return render_template("login.html")
     else:
@@ -34,7 +34,8 @@ def login():
 
 @auth.route('/logout')
 def logout():
-    return "<h1> Logout </h1>"
+    session.clear()
+    return render_template("login.html", info="Successfully logged out")
 
 
 @auth.route('/sign_up_seller')
