@@ -1,0 +1,5 @@
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %}
+{% block content %}
+    <h1>Registration completed!</h1>
+    <p>Your member ID is {{ session['login.id'] }}. Please use this to log in from now on.</p>
+{% endblock %}
