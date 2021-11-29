@@ -2,3 +2,4 @@ website/__pycache__/
 /config.json
 /venv/
 website/__init__.pyc
+website/.DS_Store
