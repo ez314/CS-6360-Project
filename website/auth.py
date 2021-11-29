@@ -11,17 +11,32 @@ def login():
     if request.method == 'GET':
         if 'id' in request.args and 'password' in request.args:
             # Use database connection to check if the user account is valid
-            res = database.db.session.query(column('Passwd'), column('Name')).from_statement(text(f'SELECT * FROM User where UserID = {request.args.get("id")}')).all()
+            res = database.db.session.execute(
+                text(f'SELECT Passwd, Name FROM User where UserID = {request.args.get("id")}')).all()
             print(res)
 
             if not res:
                 return render_template("login.html", info="User not found")
 
-            password = res[0][0]
+            # Validate password
+            password, name = res[0]
             if request.args.get('password') == password:
+                # Determine account type
+                if database.db.session.execute(
+                        text(f'SELECT * FROM Buyer where BuyerID = {request.args.get("id")}')).rowcount > 0:
+                    session['login.type'] = 'buyer'
+                elif database.db.session.execute(
+                        text(f'SELECT * FROM Seller where SellerID = {request.args.get("id")}')).rowcount > 0:
+                    session['login.type'] = 'seller'
+                elif database.db.session.execute(
+                        text(f'SELECT * FROM Admin where AdminID = {request.args.get("id")}')).rowcount > 0:
+                    session['login.type'] = 'admin'
+                else:
+                    return render_template("login.html", info="Login is valid, but no account type could be found")
+
                 # Set session variables accordingly
                 session['login.id'] = request.args.get('id')
-                session['login.name'] = res[0][1]
+                session['login.name'] = name
                 session['login.password'] = request.args.get('password')
                 return redirect(url_for('views.home'))
             else:
