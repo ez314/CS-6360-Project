@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %}{{ user['name'] }}{% endblock %}
+{% block content %}
+    <h1>{{ user['name'] }}'s Profile</h1>
+    <div class="table-responsive">
+        <table class="table table-borderless">
+            <tbody>
+            <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Member ID</strong></th>
+                <td>{{ user['id'] }}</td>
+            </tr>
+            <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Account Type</strong></th>
+                <td>{{ user['type'] }}</td>
+            </tr>
+            <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Email Address</strong></th>
+                <td>{{ user['email'] }}</td>
+            </tr>
+            <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Phone Number</strong></th>
+                <td>{{ user['phone'] }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
