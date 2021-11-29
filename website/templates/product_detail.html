@@ -25,12 +25,19 @@
 
               <tr>
                 <th class="pl-0 w-25" scope="row"><strong>Sold By</strong></th>
-                <td> <a href="/seller/{{ prod.SellerID}}" data-toggle="tooltip" data-placement="right" title="Click to view Reviews"> {{ seller.Name }} </a>
+                <td> <a href="/seller/{{ prod['SellerID']}}" data-toggle="tooltip" data-placement="right" title="Click to view Reviews"> {{ seller['Name'] }} </a>
 
-                  {% for i in range(0, seller.rating )%}
+                  
+                </td>
+                
+              </tr>
+              <tr>
+                <th></th>
+                <td>
+                  {% for i in range(0, seller.Feedback | int )%}
                     <span class="fa fa-star" style=" color: yellow;"></span>
                   {% endfor %}
-                  {% for i in range(seller.rating, 5) %}
+                  {% for i in range(seller.Feedback | int, 10) %}
                     <span class="fa fa-star"></span>
                   {% endfor %}
                 </td>
@@ -70,7 +77,7 @@
               
                   <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-high-bids" role="tabpanel" aria-labelledby="pills-high-bids-tab">
-                        <strong>Highest Bid : </strong> $ {{ highestBid }}
+                        <strong>Highest Bid : </strong> $ {{ highestBid['HighestBid'] }}
                     </div>
                     <div class="tab-pane fade" id="pills-all-bids" role="tabpanel" aria-labelledby="pills-all-bids-tab">
                       <strong>All Bids</strong>
@@ -102,7 +109,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Bid Value : $</span>
             </div>
-            <input type="number" class="form-control rounded" name="bidValue" value="{{ highestBid }}" step="{{ prod.BidIncrement }}"/>
+            <input type="number" class="form-control rounded" name="bidValue" value="{{ highestBid.HighestBid }}" step="{{ prod.BidIncrement }}"/>
           </div>
           <div class="input-group-append">
             <button type="submit" class="btn btn-outline-primary">Bid Now</button>
