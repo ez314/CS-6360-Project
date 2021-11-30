@@ -104,7 +104,7 @@ def signUp():
                 database.db.session.execute(text(statement))
 
             # Set session variables accordingly
-            session['login.id'] = new_id
+            session['login.id'] = str(new_id)
             session['login.type'] = request.args.get('account-type')
             session['login.name'] = request.args.get('name')
             session['login.password'] = request.args.get('password')
