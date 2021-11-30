@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from sqlalchemy.sql.elements import Null
 from website import database
 from sqlalchemy import column, text
 from datetime import datetime
 
 prodDetail = Blueprint('prodDetail', __name__)
-
-
 
 """
 Logic For Feedback : 
@@ -76,7 +75,7 @@ def product_Detail(itemId):
                 else:
                     if prod_details['Photo']:
                         prod_details['Photo'] = prod_details['Photo'].decode("utf-8")
-                    return render_template("product_detail.html", prod  = prod_details, seller = seller_details, bidderList = list_bidders, highestBid = highest_bid, is_Feedback = False)
+                    return render_template("product_detail.html", prod  = prod_details, seller = seller_details, bidderList = list_bidders, highestBid = highest_bid, is_Feedback = False, is_active = False)
                 
                 #check if it is buyer's account or seller's account. 
                 user_id = session['login.id']
@@ -97,7 +96,8 @@ def product_Detail(itemId):
                     if len(check_feedback_query):
                         for item in check_feedback_query:
                             check_feedback = item._asdict()
-                        if not((user_id == b_id and check_feedback['SellerComment'] == Null) or (user_id == s_id and check_feedback['BuyerComment'] == Null)):
+            
+                        if not((user_id == b_id and check_feedback['SellerComment'] == 'None') or (user_id == s_id and check_feedback['BuyerComment'] == 'None')):
                             is_Feedback = False
                         else:
                             is_Feedback = True
@@ -111,7 +111,7 @@ def product_Detail(itemId):
             if prod_details['Photo']:
                 prod_details['Photo'] = prod_details['Photo'].decode("utf-8")
             
-            return render_template("product_detail.html", prod  = prod_details, seller = seller_details, bidderList = list_bidders, highestBid = highest_bid, is_Feedback = False)
+            return render_template("product_detail.html", prod  = prod_details, seller = seller_details, bidderList = list_bidders, highestBid = highest_bid, is_Feedback = False, is_active = True)
         else:
             return redirect('/')
     else:
@@ -178,3 +178,4 @@ def feedback(SellerID, BuyerID, ItemID):
     database.db.session.execute(text(statement))
     database.db.session.commit()
     return redirect(url_for('prodDetail.product_Detail', itemId=ItemID))
+

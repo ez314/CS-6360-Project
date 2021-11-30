@@ -277,6 +277,10 @@ UPDATE Item
 	Set Photo = 'https://i5.walmartimages.com/asr/c1e77b56-121e-4ca8-a95d-3999c284b890.668f3349f2435e72cd73b95f098eb298.jpeg'
     WHERE ItemID = '4';
 
+INSERT INTO Bids_for (ItemID, BuyerID, BiddingTime, Price)
+    VALUES (4, 7, "2021-10-21", 20);
+
+
 
 
 

@@ -161,7 +161,7 @@
                       </td>
                     </tr>
                   </form>
-              {% else %}
+              {% elif is_active %}
               <tr>  
                 <td colspan="2">
                   <ul class="nav nav-tabs mb-3 justify-content-center" role="tablist">
@@ -203,7 +203,7 @@
           </table>
         </div>
           
-        {% if not is_Feedback %}
+        {% if not is_Feedback and is_active%}
         <form method="post" action="/product/{{ prod.ItemID }}">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
