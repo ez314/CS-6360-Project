@@ -25,12 +25,14 @@ def create_app():
     from .productDetail import prodDetail
     from .sell import sell
     from .profile import profile
+    from .search import searchCategory
     
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(prodDetail)
     app.register_blueprint(sell)
     app.register_blueprint(profile)
+    app.register_blueprint(searchCategory)
 
     database.db = SQLAlchemy(app)
     print('database test:', database.db.session.execute((text('SELECT * FROM ONLINE_AUCTION.Buyer;'))).all())

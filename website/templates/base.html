@@ -33,10 +33,10 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand" href="/">Online Auction</a>
         {% if session['login.id'] is defined %}
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search an item" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+        <form class="form-inline my-2 my-lg-0" methods='POST' action='/search/'>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search an item" aria-label="Search" id='search_item' name='search_item'>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
         {% endif %}
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
