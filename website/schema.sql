@@ -200,3 +200,83 @@ UPDATE Item, Seller, User SET Item.IsActive=False
 WHERE Item.SellerID=Seller.SellerID 
 	AND Seller.SellerID = User.UserID 
     AND User.IsActive=False;
+    
+
+CREATE VIEW V_Admin AS
+SELECT Admin.AdminID, User.Name, User.Email
+FROM Admin, User
+WHERE Admin.AdminID = User.UserID and User.IsActive;
+
+CREATE VIEW V_Buyers AS
+SELECT Buyer.BuyerID, User.Name, User.Email, Buyer.Address, Buyer.City, AVG(Buys.BuyerFeedback) AS Feedback
+FROM Buyer, User, Buys
+WHERE Buyer.BuyerID = User.UserID and Buyer.BuyerID = Buys.BuyerID and User.IsActive
+GROUP BY Buyer.BuyerID;
+
+CREATE VIEW V_Sellers AS
+SELECT Seller.SellerID, User.Name, User.Email, Seller.AccountNum, Seller.RoutingNum, AVG(Buys.SellerFeedback) AS Feedback
+FROM Seller, User, Buys, Item
+WHERE Item.ItemID = Buys.ItemID and Seller.SellerID = Item.SellerID and Seller.SellerID = User.UserID
+GROUP BY Seller.SellerID;
+
+CREATE VIEW V_Buyers_Rating AS
+SELECT Buyer.BuyerID, User.Name, AVG(Buys.BuyerFeedback) AS Feedback
+FROM Buyer, Buys, User
+WHERE Buyer.BuyerID = Buys.BuyerID and Buyer.BuyerID = User.UserID and User.IsActive
+GROUP BY Buyer.BuyerID;
+
+CREATE VIEW V_Sellers_Rating AS
+SELECT Seller.SellerID, User.Name, AVG(Buys.SellerFeedback) AS Feedback
+FROM Seller, Buys, Item, User
+WHERE Seller.SellerID = Buys.BuyerID and Item.ItemID = Buys.ItemID and Seller.SellerID = Item.SellerID and Seller.SellerID = User.UserID and User.IsActive
+GROUP BY Seller.SellerID;
+
+CREATE VIEW V_Highest_Bids AS
+SELECT Item.ItemID, Item.Name, MAX(Bids_for.Price) AS HighestBid
+FROM Item, Bids_for
+WHERE Item.ItemID = Bids_for.ItemID and Item.IsActive
+GROUP BY Item.ItemID;
+
+UPDATE Item 
+	SET Photo = 'https://cdn.pocket-lint.com/r/s/1200x/assets/images/142227-phones-review-iphone-x-review-photos-image1-ahdsiyvum0.jpg'
+    WHERE ItemID = '1';
+
+UPDATE Item 
+	SET Photo = 'https://cdn.mos.cms.futurecdn.net/qQTvMVWfGLxQoHurk5DJhg.png'
+    WHERE ItemID = '2';
+    
+UPDATE Item 
+	SET Photo = 'https://m.media-amazon.com/images/I/71umuN8XVeL.jpg'
+    WHERE ItemID = '3';
+
+SELECT * FROM Item;
+
+CREATE VIEW V_Highest_Bid_Details AS 
+SELECT B1.ItemID, Item.Name, Item.SellerID, B1.BuyerID, B1.Price
+FROM Bids_for AS B1 NATURAL JOIN Item
+WHERE Item.IsActive AND B1.Price = (
+			SELECT MAX(B2.Price)
+			FROM Bids_for AS B2
+            WHERE B1.ItemID = B2.ItemID
+            GROUP BY (B2.ItemID)
+	);
+    
+SELECT * FROM V_Highest_Bid_Details;
+
+SELECT * FROM ONLINE_AUCTION.Buys WHERE ItemID = 1 AND BuyerID = 5;
+
+SELECT * FROM Buyer;
+
+UPDATE Buys SET SellerFeedback = '8', SellerComment = "This is Good Stuff" WHERE BuyerID = '5' AND ItemID = '1';
+
+
+INSERT INTO Item (ItemID, Name, Description, Photo, StartingBID, BidIncrement, StartDate, EndDate, SellerID)
+    VALUES (DEFAULT, "Calculator", "New Modern Casio Calculator", NULL, 8, 2, "2021-10-12", "2021-11-01", 3);
+
+UPDATE Item 
+	Set Photo = 'https://i5.walmartimages.com/asr/c1e77b56-121e-4ca8-a95d-3999c284b890.668f3349f2435e72cd73b95f098eb298.jpeg'
+    WHERE ItemID = '4';
+
+
+
+

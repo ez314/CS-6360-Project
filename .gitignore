@@ -1,1 +1,4 @@
 website/__pycache__/
+config.json
+website/.DS_Store
+website/schema.sql

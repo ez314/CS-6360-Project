@@ -1,11 +1,30 @@
 {% extends "base.html" %} {% block title %}Product Detail{% endblock %} 
 {% block content %}
-  
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %} {% if category ==
+  'error' %}
+  <div class="alert alert-danger alter-dismissable fade show" role="alert">
+    {{ message }}
+     
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% else %}
+  <div class="alert alert-success alter-dismissable fade show" role="alert">
+    {{ message }}
+
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
 
 
   <div class="container-fluid">
     <div class="row no-gutters">
-      <div class="col-xl-8 border-3">
+      <div class="col-xl-8 margin-3">
                     <img src="{{ prod.Photo }}" class="img-fluid rounded " width ="600" alt="Preview Image">        
       </div>
       <div class="col-xl-4">
@@ -27,7 +46,15 @@
                 <th class="pl-0 w-25" scope="row"><strong>Sold By</strong></th>
                 <td> <a href="/seller/{{ prod.SellerID}}" data-toggle="tooltip" data-placement="right" title="Click to view Reviews"> {{ seller.Name }} </a>
 
-                  {% for i in range(0, seller.rating )%}
+                  
+                </td>
+                
+              </tr>
+              {% if seller.Feedback %}
+              <tr>
+                <th></th>
+                <td>
+                  {% for i in range(0, seller.Feedback | int )%}
                     <span class="fa fa-star" style=" color: yellow;"></span>
                   {% endfor %}
                   {% for i in range(seller.rating, 5) %}
@@ -36,7 +63,7 @@
                 </td>
                 
               </tr>
-
+              {% endif %}
               <tr>
                 <th class="pl-0 w-25" scope="row"><strong>Start Date</strong></th>
                 <td> {{ prod.StartDate }}</td>
@@ -56,8 +83,86 @@
                 <th class="pl-0 w-25" scope="row"><strong>Bid Increment</strong></th>
                 <td> $ {{ prod.BidIncrement }}</td>
               </tr>
+              
+              {% if is_Feedback %}
               <tr>
-
+                <td colspan="4">
+                  <p><strong>Please Enter Following Feedback </strong></p>
+                </td>
+              </tr>
+              <tr>
+                {% if is_buyer %}
+                  <td colspan="4"><strong>Feedback For Seller : </strong> {{bid_details.SellerID }}</td>
+                {% else %}
+                  <td colspan="4"><strong>Feedback For Buyer : </strong> {{ bid_details.BuyerID }}</td>
+                {% endif %}
+              </tr>
+                  <form method='POST' action="/feedback/{{ bid_details.SellerID }}/{{ bid_details.BuyerID}}/{{ bid_details.ItemID }}">
+                    {% if is_buyer %}
+                    <tr>
+                      <td colspan="4"> 
+                        <div class="form-group">
+                          <label for="seller_comment">Enter Feedback</label>
+                          <textarea class="form-control" id="seller_comment" name='seller_comment'></textarea>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4">
+                        <div class="form-group">
+                          <label for="seller_rating">Rating</label>
+                          <select id="seller_rating" class="form-control" name='seller_rating'>
+                            <option selected>10</option>
+                            <option>9</option>
+                            <option>8</option>
+                            <option>7</option>
+                            <option>6</option>
+                            <option>5</option>
+                            <option>4</option>
+                            <option>3</option>
+                            <option>2</option>
+                            <option>1</option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                      <td colspan="4">
+                        <div class="form-group">
+                          <label for="buyer_comment">Enter Feedback</label>
+                          <textarea class="form-control" id="buyer_comment" rows="3" name='buyer_comment'></textarea>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4">
+                        <div class="form-group">
+                          <label for="buyer_rating">Rating</label>
+                          <select id="buyer_rating" class="form-control" name='buyer_rating'>
+                            <option selected>10</option>
+                            <option>9</option>
+                            <option>8</option>
+                            <option>7</option>
+                            <option>6</option>
+                            <option>5</option>
+                            <option>4</option>
+                            <option>3</option>
+                            <option>2</option>
+                            <option>1</option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                      <td colspan="4">
+                        <button type="submit" class="btn btn-outline-info">Submit Feedback</button>
+                      </td>
+                    </tr>
+                  </form>
+              {% else %}
+              <tr>  
                 <td colspan="2">
                   <ul class="nav nav-tabs mb-3 justify-content-center" role="tablist">
                     <li class="nav-item">
@@ -93,21 +198,24 @@
 
                 </td>
               </tr>
+              {% endif %}
             </tbody>
           </table>
         </div>
-
+          
+        {% if not is_Feedback %}
         <form method="post" action="/product/{{ prod.ItemID }}">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">Bid Value : $</span>
             </div>
-            <input type="number" class="form-control rounded" name="bidValue" value="{{ highestBid }}" step="{{ prod.BidIncrement }}"/>
-          </div>
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-outline-primary">Bid Now</button>
+            <input type="number" class="form-control rounded mx-sm-3" name="bidValue" value="{{ highestBid.HighestBid }}" step="{{ prod.BidIncrement }}"/>
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-outline-primary">Bid Now</button>
+            </div>
           </div>
         </form>
+        {% endif %}
       </div>
     </div>
   </div>
