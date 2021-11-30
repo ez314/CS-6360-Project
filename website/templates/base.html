@@ -51,6 +51,9 @@
                 </li>
             {% else %}
                 <li class="nav-item">
+                    <a class="nav-link" id="profile" href="/profile/{{ session['login.id'] }}">Profile</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="logout" href="/logout">Logout</a>
                 </li>
                 {% if session['login.name'] %}
@@ -142,8 +145,7 @@
     <!-- Grid container -->
 
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: #024459;"
-    ">
+    <div class="text-center p-3" style="background-color: #024459;">
     © 2021 Copyright: Online Auction
     </div>
     <!-- Copyright -->
