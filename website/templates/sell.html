@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block title %}Seller Form {% endblock %}
+{% block content %}
+    <h1>Enter your item below to sell</h1>
+    {% if info %}
+        <div>{{ info }}</div>
+    {% endif %}
+    <form>
+
+
+
+        <label for="name">Item Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="desc">Description</label><br>
+        <input type="text" id="desc" name="desc" required><br><br>
+
+        <label for="desc">Bid Increment</label><br>
+        <input type="text" id="bidinc" name="bidinc" required><br><br>
+
+        <label for="photo">Photo</label><br>
+        <input type="text" id="pic" name="pic" required><br><br>
+
+        <label for="sbid">Starting Bid</label><br>
+        <input type="number" id="sbid" name="sbid" required><br><br>
+
+        <label for="sdate">Start Date </label><br>
+        <input type="date" id="sdate" name="sdate" required><br><br>
+
+        <label for="sdate">End Date </label><br>
+        <input type="date" id="edate" name="edate" required><br><br>
+
+        <input type="submit" value="Sell">
+    </form>
+{% endblock %}
+{% block script %}
+
+{% endblock %}
