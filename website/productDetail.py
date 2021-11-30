@@ -1,12 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from sqlalchemy.sql.elements import Null
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from website import database
 from sqlalchemy import column, text
-from datetime import datetime
 
 prodDetail = Blueprint('prodDetail', __name__)
-is_Feedback = False
-
 
 @prodDetail.route('/product/<int:itemId>', methods=['GET', 'POST'])
 def product_Detail(itemId):

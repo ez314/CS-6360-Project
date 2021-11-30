@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <h1>Welcome!</h1>
+    {% if info %}
+        <div>{{ info }}</div>
+    {% endif %}
+    <form>
+        <label for="id">Member ID:</label><br>
+        <input type="text" pattern="[0-9]+" id="id" name="id"><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+{% endblock %}

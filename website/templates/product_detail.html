@@ -57,7 +57,7 @@
                   {% for i in range(0, seller.Feedback | int )%}
                     <span class="fa fa-star" style=" color: yellow;"></span>
                   {% endfor %}
-                  {% for i in range(seller.rating, 5) %}
+                  {% for i in range(seller.Feedback | int, 10) %}
                     <span class="fa fa-star"></span>
                   {% endfor %}
                 </td>
@@ -175,7 +175,7 @@
               
                   <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-high-bids" role="tabpanel" aria-labelledby="pills-high-bids-tab">
-                        <strong>Highest Bid : </strong> $ {{ highestBid }}
+                        <strong>Highest Bid : </strong> $ {{ highestBid['HighestBid'] }}
                     </div>
                     <div class="tab-pane fade" id="pills-all-bids" role="tabpanel" aria-labelledby="pills-all-bids-tab">
                       <strong>All Bids</strong>

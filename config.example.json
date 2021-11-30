@@ -1,0 +1,6 @@
+{
+  "mysql_server": "127.0.0.1",
+  "mysql_db": "ONLINE_AUCTION",
+  "mysql_username": "root",
+  "mysql_password": "password"
+}
