@@ -5,6 +5,16 @@ from datetime import datetime
 
 prodDetail = Blueprint('prodDetail', __name__)
 
+
+
+"""
+Logic For Feedback : 
+1.  EndDate of current product should be less than current date, 
+    1.1     Current User should be either Seller or Buyer with highest Bid and there shouldn't be any comment for this
+            current user for current item in Buys Table.(This would mean that the current user has already given the feedback).
+
+
+"""
 @prodDetail.route('/product/<int:itemId>', methods=['GET', 'POST'])
 def product_Detail(itemId):
     if request.method == 'GET':
@@ -30,7 +40,7 @@ def product_Detail(itemId):
             statement = (f'SELECT * FROM ONLINE_AUCTION.V_Sellers WHERE SellerID = { s_id };')
             seller_query = database.db.session.execute(text(statement)).all()
             
-            if seller_query:
+            if len(seller_query):
                 for item in seller_query:
                     seller_details = item._asdict()
             else:
@@ -51,7 +61,7 @@ def product_Detail(itemId):
             statement = (f'SELECT HighestBid FROM ONLINE_AUCTION.V_Highest_Bids WHERE ItemID = { itemId };')
             highest_bid_query = database.db.session.execute(text(statement)).all()
             
-            if highest_bid_query:
+            if len(highest_bid_query):
                 for item in highest_bid_query:
                     highest_bid = item._asdict()
             else:
@@ -60,10 +70,14 @@ def product_Detail(itemId):
             if prod_details['EndDate'] < datetime.now(): #Since Bid time is over, we would check if there is any feedback or not.
                 statement = (f'SELECT * FROM V_Highest_Bid_Details WHERE ItemID = { itemId };')
                 buyer_seller_query = database.db.session.execute(text(statement)).all()
-                if buyer_seller_query:
+                if len(buyer_seller_query):
                     for item in buyer_seller_query:
                         buyer_seller_details = item._asdict()
-
+                else:
+                    if prod_details['Photo']:
+                        prod_details['Photo'] = prod_details['Photo'].decode("utf-8")
+                    return render_template("product_detail.html", prod  = prod_details, seller = seller_details, bidderList = list_bidders, highestBid = highest_bid, is_Feedback = False)
+                
                 #check if it is buyer's account or seller's account. 
                 user_id = session['login.id']
                 user_id = int(user_id)
@@ -80,7 +94,7 @@ def product_Detail(itemId):
                     #Query to check if current user has already given the feedback
                     statement = (f'SELECT * FROM ONLINE_AUCTION.Buys WHERE ItemID = { itemId } AND BuyerID={b_id};')
                     check_feedback_query = database.db.session.execute(text(statement)).all()
-                    if check_feedback_query:
+                    if len(check_feedback_query):
                         for item in check_feedback_query:
                             check_feedback = item._asdict()
                         if not((user_id == b_id and check_feedback['SellerComment'] == Null) or (user_id == s_id and check_feedback['BuyerComment'] == Null)):
@@ -164,4 +178,3 @@ def feedback(SellerID, BuyerID, ItemID):
     database.db.session.execute(text(statement))
     database.db.session.commit()
     return redirect(url_for('prodDetail.product_Detail', itemId=ItemID))
-
