@@ -26,7 +26,6 @@ def create_app():
     from .sell import sell
     from .profile import profile
     from .search import searchCategory
-    
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(prodDetail)

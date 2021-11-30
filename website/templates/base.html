@@ -33,10 +33,10 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand" href="/">Online Auction</a>
         {% if session['login.id'] is defined %}
-        <form class="form-inline my-2 my-lg-0" methods='POST' action='/search/'>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search an item" aria-label="Search" id='search_item' name='search_item'>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <form class="form-inline my-2 my-lg-0" methods='POST' action='/search/'>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search an item" aria-label="Search" id='search_item' name='search_item'>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
         {% endif %}
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
@@ -50,9 +50,6 @@
                     <a class="nav-link" id="sign_up" href="/sign_up">Sign Up</a>
                 </li>
             {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" id="profile" href="/profile/{{ session['login.id'] }}">Profile</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" id="logout" href="/logout">Logout</a>
                 </li>
@@ -145,7 +142,8 @@
     <!-- Grid container -->
 
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: #024459;">
+    <div class="text-center p-3" style="background-color: #024459;"
+    ">
     © 2021 Copyright: Online Auction
     </div>
     <!-- Copyright -->
