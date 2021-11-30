@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} 
+{% block content %}
+  <h1> Item List of {{categoryName}}</h1>
+  <div class="container-fluid">
+    <div class="row no-gutters">
+      <div style="display: block;
+      max-width: -moz-fit-content;
+      max-width: fit-content;
+      margin: 0 auto;
+      overflow-x: auto;
+      white-space: nowrap;">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+                <tr>
+                    <th>ItemID</th>
+                    <th>ItemName</th>
+                    <th>ItemDescription</th>
+                    <th>ItemPhoto</th>
+                    <th>ItemStartingBid</th>
+                    <th>ItemBidIncrement</th>
+                    <th>ItemStartDate</th>
+                    <th>ItemEndDate</th>
+                    <th>ItemSellerID</th>
+                </tr>
+                {% for i in ItemTuple %}
+                    <tr>
+                    {% for j in i %}
+                        <td> {{ j }}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
