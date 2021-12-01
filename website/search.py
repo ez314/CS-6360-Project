@@ -56,23 +56,30 @@ SELECT *
 FROM Category;
 '''
 
+
 '''https://www.w3schools.com/howto/howto_js_sort_table.asp'''
 
 @searchCategory.route('/search/', methods=['GET', 'POST'])
 def search_Category():
-    prod_query = request.args.get('search_item')
-    print(prod_query)
+    query_item = request.args.get('query') # name of the item
+    query_category = request.args.get('category') # name of the category
+    print(query_item)
+    print(query_category)
     if request.method == 'GET':
         # get CategoryName
-        categoryName = prod_query
+        categoryName = query_category
         # get categoryID
-        statement = (f'SELECT CategoryID FROM ONLINE_AUCTION.Category WHERE ONLINE_AUCTION.Category.Name = "{prod_query}" ;')
+        statement = (f'SELECT CategoryID FROM ONLINE_AUCTION.Category WHERE ONLINE_AUCTION.Category.Name = "{query_category}" ;')
         categoryID = database.db.session.execute(text(statement)).all()
+        if len(categoryID) == 0:
+            categoryID = 10
+        else:
+            categoryID = categoryID[0][0]
         print(categoryID)
 
         # Worry about this later actually.-----------------------------
         # get child categoriesID
-        statement = (f'''WITH Category AS
+        '''statement = (fWITH Category AS
             (
                 SELECT Category.Categoryid,
                         Category.ParentCategoryid
@@ -84,7 +91,8 @@ def search_Category():
                     INNER JOIN Category r ON r.Categoryid = t.ParentCategoryid
             )
             SELECT *
-            FROM Category;''')
+            FROM Category;)
+        
         childCategoriesID = database.db.session.execute(text(statement)).all()
         print("asdf")
         print(childCategoriesID)
@@ -94,6 +102,7 @@ def search_Category():
             listx.pop()
             childCategoriesID[i] = tuple(listx)
         print(childCategoriesID)
+        '''
         # ------------------------------------------------
 
         # item_List = []
@@ -106,20 +115,27 @@ def search_Category():
         # ItemID = database.db.session.execute(text(statement)).all()
         # #print(ItemID)
 
+        print(query_item)
         # get Item Tuple
-        statement = (f'''SELECT Item.ItemID, Item.Name, Item.Description, Item.Photo, Item.StartingBid, Item.BidIncrement, 
-            Item.StartDate, Item.EndDate, Item.SellerID
-            FROM Item, Belongs_to, Category
-            WHERE Category.Name = "{prod_query}" and Category.CategoryID = Belongs_to.CategoryID and Belongs_to.ItemID = Item.ItemID
-            and Item.EndDate > CURRENT_DATE() and Item.IsActive
-            Group by Item.ItemID
-            ORDER BY Item.EndDate;''')
+        if categoryName == 'All':
+            statement= (f'''SELECT Item.ItemID, Item.Name, Item.Description, Item.Photo, Item.StartingBid, Item.BidIncrement, 
+                Item.StartDate, Item.EndDate, Item.SellerID 
+                FROM Item 
+                WHERE lower(Item.name) LIKE lower("%{query_item}%") OR lower(Item.description) LIKE lower("%{query_item}%");''')
+        else:
+            statement = (f'''SELECT Item.ItemID, Item.Name, Item.Description, Item.Photo, Item.StartingBid, Item.BidIncrement, 
+                Item.StartDate, Item.EndDate, Item.SellerID
+                FROM Item, Belongs_to, Category
+                WHERE Category.Name = "{categoryName}" and Category.CategoryID = Belongs_to.CategoryID and Belongs_to.ItemID = Item.ItemID
+                and Item.EndDate > CURRENT_DATE() and Item.IsActive
+                Group by Item.ItemID
+                ORDER BY Item.EndDate;''')
         ItemTuple = database.db.session.execute(text(statement)).all()
         print(ItemTuple)
 
         
 
         #render template
-        return render_template("search_category.html", categoryName=categoryName, categoryID=categoryID[0][0], ItemTuple = ItemTuple )
+        return render_template("search_category.html", categoryName=categoryName, categoryID=categoryID ,ItemTuple = ItemTuple )
     else:
         pass

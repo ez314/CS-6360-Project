@@ -13,23 +13,21 @@
           <table class="table">
             <tbody>
                 <tr>
-                    <th>ItemID</th>
-                    <th>ItemName</th>
-                    <th>ItemDescription</th>
-                    <th>ItemPhoto</th>
-                    <th>ItemStartingBid</th>
-                    <th>ItemBidIncrement</th>
-                    <th>ItemStartDate</th>
-                    <th>ItemEndDate</th>
-                    <th>ItemSellerID</th>
-                    <th>ProductDetailsLink</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Starting Bid</th>
+                    <th>Bid Increment</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Seller ID</th>
+                    <th>Bidding Link</th>
                 </tr>
                 {% for i in ItemTuple %}
                     <tr>
                         <td> {{ i[0] }}</td>
                         <td> {{ i[1] }}</td>
                         <td> {{ i[2] }}</td>
-                        <td> {{ i[3] }}</td>
                         <td> {{ "$%.2f" | format(i[4]| float) }}</td>
                         <td> {{ "$%.2f" | format(i[5]| float) }}</td>
                         <td> {{ i[6] }}</td>
