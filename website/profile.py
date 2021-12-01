@@ -1,3 +1,5 @@
+import statistics
+
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from sqlalchemy import column, text
 
@@ -9,6 +11,7 @@ profile = Blueprint('profile', __name__)
 
 @profile.route('/profile/<int:userId>')
 def view_profile(userId):
+    userId = str(userId)
     if request.method == 'GET':
         # Find user, if it exists
         res = database.db.session.execute(
@@ -22,12 +25,18 @@ def view_profile(userId):
         if not user_account_type:
             return render_template("error.html", error="That user does not have an associated account.")
 
+        # Determine feedback stats
+        feedback = gather_user_feedback(userId, user_account_type)
+
         user = {
             'id': str(userId),
             'name': res[0][0],
             'email': res[0][1],
             'phone': res[0][2],
-            'type': user_account_type.capitalize()
+            'type': user_account_type.capitalize(),
+            'num_transactions': len(feedback),
+            'avg_rating': f'{statistics.mean([x[0] for x in feedback]):.2f}' if feedback else 'N/A',
+            'comments': [x[1:] for x in feedback]
         }
 
         return render_template("profile.html", user=user)
@@ -121,3 +130,21 @@ def gather_user_attributes_editable(userId):
             user['type-noedit'] = 'unknown-or-admin'
 
     return user
+
+
+def gather_user_feedback(userId, type):
+    # Find all relevant entries in the database
+    if type == 'buyer':
+        return database.db.session.execute(
+            text(f'SELECT BuyerFeedback, BuyerComment, Item.ItemID, Item.Name'
+                 f'  FROM Item, Buys '
+                 f'  WHERE Item.ItemID = Buys.ItemID AND Buys.BuyerID = {userId}'
+                 )).all()
+    elif type == 'seller':
+        return database.db.session.execute(
+            text(f'SELECT SellerFeedback, SellerComment, Item.ItemID, Item.Name'
+                 f'  FROM Item, Buys '
+                 f'  WHERE Item.ItemID = Buys.ItemID AND Item.SellerID = {userId}'
+                 )).all()
+    else:
+        return []
