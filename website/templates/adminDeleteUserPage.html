@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %} {% block title %}adminDeleteUser{% endblock %}
+{% block content %}
+  <h1> Admin Delete User Page </h1>
+
+  {% if info %}
+  <div>{{ info }}</div>
+  {% endif %}
+
+  <h3> User Table </h3>
+  <div style="">
+    <div style="height:150px;overflow:auto;">
+      <table style="">
+        <thead style="">
+          <tr>
+            {% for header in userHeadings %}
+            <th style="text-align:center;">{{ header }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        {% for row in userData %}
+        <tr>
+          {% for cell in row %}
+            <td style="text-align:center;background:#e5e5e5;">{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <form style="margin-top:20px;" method="POST">
+    <label for="id">ID of User to Deactivate</label><br>
+    <input type="text" pattern="[0-9]+" id="id" name="id"><br><br>
+    <input type="submit" value="Deactivate User">
+  </form>
+
+{% endblock %}

@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %} {% block title %}AdminHome{% endblock %}
+{% block content %}
+  <h1> Admin Home Page </h1>
+
+  <h3> User Table </h3>
+  <div style="">
+    <div style="height:150px;overflow:auto;">
+      <table style="">
+        <thead style="">
+          <tr>
+            {% for header in userHeadings %}
+            <th style="text-align:center;">{{ header }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        {% for row in userData %}
+        <tr>
+          {% for cell in row %}
+            <td style="text-align:center;background:#e5e5e5;">{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px;"> Item Table </h3>
+  <div style="">
+    <div style="height:150px;overflow:auto;">
+      <table style="">
+        <thead style="">
+          <tr>
+            {% for header in itemHeadings %}
+            <th style="text-align:center;">{{ header }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        {% for row in itemData %}
+        <tr>
+          {% for cell in row %}
+            <td style="text-align:center;background:#e5e5e5;">{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <form action="{{ url_for('views.adminDeleteUserPage') }}" method="get"><button>Deactivate User</button></form>
+    <form action="{{ url_for('views.adminDeleteItemPage') }}" method="get"><button>Deactivate Item</button></form>
+  </div>
+{% endblock %}
