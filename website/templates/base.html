@@ -35,28 +35,26 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand" href="/">Online Auction</a>
         {% if session['login.id'] is defined %}
-            {% if session['login.type'] == 'buyer' or session['login.type'] == 'admin' %}
-                <form class="form-inline my-2 my-lg-0" methods='POST' action='/search/'>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <select name="category" id="category" class="form-select form-select-sm mb-2"
-                                        aria-label="searchDropdownDescription .form-select-lg example">
-                                    <option value="All">All</option>
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Phone">Phone</option>
-                                    <option value="Good Stuff">Good Stuff</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-6">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search an item"
-                                       aria-label="Search" id='query' name='query'>
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                            </div>
+            <form class="form-inline my-2 my-lg-0" methods='POST' action='/search/'>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <select name="category" id="category" class="form-select form-select-sm mb-2"
+                                    aria-label="searchDropdownDescription .form-select-lg example">
+                                <option value="All">All</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Phone">Phone</option>
+                                <option value="Good Stuff">Good Stuff</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-6">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search an item"
+                                   aria-label="Search" id='query' name='query'>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </div>
                     </div>
-                </form>
-            {% endif %}
+                </div>
+            </form>
         {% endif %}
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
@@ -73,6 +71,11 @@
                 {% if session['login.type'] == 'seller' %}
                     <li class="nav-item active">
                         <a class="nav-link" id="sell" href="/sell">Sell</a>
+                    </li>
+                {% endif %}
+                {% if session['login.type'] == 'admin' %}
+                    <li class="nav-item active">
+                        <a class="nav-link" id="sell" href="/adminHome">Admin</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
