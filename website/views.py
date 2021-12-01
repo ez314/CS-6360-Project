@@ -36,6 +36,7 @@ def adminHome():
 def adminDeleteUserPage():
     # Get the queries for the tables done
     userStatement = (f'SELECT * FROM ONLINE_AUCTION.User;')
+    print("Inside")
 
     userQuery = database.db.session.execute(text(userStatement)).all()
 
@@ -47,9 +48,13 @@ def adminDeleteUserPage():
 
     if request.method == "POST":
         try:
+            print("Try")
             if request.form['id']:
-                statement = (f'UPDATE ONLINE_AUCTION.User SET IsActive = 0 WHERE UserID={request.form["id"]};')
-                database.db.session.execute(text(statement)).all()
+                user_id = request.values.get('id')
+                user_id = int(user_id)
+                statement = (f'UPDATE ONLINE_AUCTION.User SET IsActive = 0 WHERE UserID={ user_id };')
+                database.db.session.execute(text(statement))
+                database.db.session.commit()
 
                 # Redo query for users to show that user has been successfully deleted
                 userQuery = database.db.session.execute(text(userStatement)).all()
@@ -63,7 +68,8 @@ def adminDeleteUserPage():
             else:
                 return render_template("adminDeleteUserPage.html", userHeadings=userHeadings, userData=userData)
 
-        except Exception:
+        except Exception as e:
+            print(e)
             return render_template("adminDeleteUserPage.html", userHeadings=userHeadings, userData=userData, info="Failed to Delete user")
 
     # Simply render the page
