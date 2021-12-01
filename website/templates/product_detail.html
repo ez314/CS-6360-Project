@@ -186,7 +186,7 @@
                         </tr>
                         {% for buyer in bidderList %}
                           <tr>
-                            <td> {{ buyer['BuyerID']}} </td>
+                            <td> <a href="/profile/{{ buyer['BuyerID'] }}">{{ buyer['BuyerID']}}</a> </td>
                             <td> {{ buyer['BiddingTime']}}</td>
                             <td> {{ "$%.2f" | format(buyer['Price'] | float) }}</td>
                           </tr>
