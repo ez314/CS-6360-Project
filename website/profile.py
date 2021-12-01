@@ -28,6 +28,7 @@ def view_profile(userId):
         # Determine feedback stats
         feedback = gather_user_feedback(userId, user_account_type)
 
+        # Build user data
         user = {
             'id': str(userId),
             'name': res[0][0],
@@ -38,6 +39,12 @@ def view_profile(userId):
             'avg_rating': f'{statistics.mean([x[0] for x in feedback]):.2f}' if feedback else 'N/A',
             'comments': [x[1:] for x in feedback]
         }
+
+        # Add some additional data for buyers or sellers
+        if user_account_type == 'buyer':
+            user['bids'] = gather_buyer_bids(userId)
+        elif user_account_type == 'seller':
+            user['items'] = gather_seller_items(userId)
 
         return render_template("profile.html", user=user)
     else:
@@ -148,3 +155,19 @@ def gather_user_feedback(userId, type):
                  )).all()
     else:
         return []
+
+def gather_buyer_bids(userId):
+    return database.db.session.execute(
+        text(f'SELECT Bids_for.ItemID, Name, BiddingTime, Price'
+             f'  FROM Bids_for, Item '
+             f'  WHERE Bids_for.ItemID = Item.ItemID AND BuyerID = {userId}'
+             f'  ORDER BY BiddingTime DESC'
+             )).all()
+
+def gather_seller_items(userId):
+    return database.db.session.execute(
+        text(f'SELECT ItemID, Name, EndDate'
+             f'  FROM Item'
+             f'  WHERE SellerID = {userId}'
+             f'  ORDER BY ItemID DESC'
+             )).all()

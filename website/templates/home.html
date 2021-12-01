@@ -1,4 +1,37 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} 
 {% block content %}
-  <h1> Welcome to Home Page</h1>
+  <div class="container mt-3">
+    <div>
+      <img src="../static/images/HolidayBanner.jpg" class="img-fluid" alt="Responsive image">
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Buyer</h5>
+            <p class="card-text">A Buyer account can bid for items in the auction.</p>
+            <a href="http://127.0.0.1:5000/sign_up" class="btn btn-primary">Create a Buyer Account</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Seller</h5>
+            <p class="card-text">A Seller account can put items up for auction.</p>
+            <a href="http://127.0.0.1:5000/sign_up" class="btn btn-primary">Create a Seller Account</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Admin</h5>
+            <p class="card-text">Admins help manage the website and users.</p>
+            <a href="#" class="btn btn-primary">Create an Admin Account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
