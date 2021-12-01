@@ -21,7 +21,6 @@
   </div>
 {% endif %} {% endfor %} {% endif %} {% endwith %}
 
-
   <div class="container-fluid">
     <div class="row no-gutters">
       <div class="col-xl-8 margin-3">
@@ -202,13 +201,14 @@
           </table>
         </div>
           
-        {% if not is_Feedback and is_active%}
+        {% if not is_Feedback and is_active %}
         <form method="post" action="/product/{{ prod.ItemID }}">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">Bid Value : $</span>
             </div>
-            <input type="number" class="form-control rounded mx-sm-3" name="bidValue" value="{{highestBid.HighestBid }}" step="{{ prod.BidIncrement }}"/>
+            <input type="number" class="form-control rounded mx-sm-3" name="bidValue" min = "{{ highestBid.HighestBid }}" 
+            value="{{ highestBid.HighestBid }}" step="{{ prod.BidIncrement }}" onkeydown="return false"/>
             <div class="input-group-append">
               <button type="submit" class="btn btn-outline-primary">Bid Now</button>
             </div>

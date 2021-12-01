@@ -66,6 +66,11 @@ def product_Detail(itemId):
             else:
                 highest_bid = {'HighestBid' : prod_details['StartingBid']}
             
+            if prod_details['StartDate'] > datetime.now():
+                if prod_details['Photo']:
+                        prod_details['Photo'] = prod_details['Photo'].decode("utf-8")
+                return render_template("product_detail.html", prod  = prod_details, seller = seller_details, bidderList = list_bidders, highestBid = highest_bid, is_Feedback = False, is_active = False)
+                
             if prod_details['EndDate'] < datetime.now(): #Since Bid time is over, we would check if there is any feedback or not.
                 statement = (f'SELECT * FROM V_Highest_Bid_Details WHERE ItemID = { itemId };')
                 buyer_seller_query = database.db.session.execute(text(statement)).all()
