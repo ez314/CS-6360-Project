@@ -42,8 +42,40 @@
                 <tbody>
                 {% for comment in user['comments'] %}
                     <tr>
-                        <th class="pl-0 w-25" scope="row"><strong><a href="/product/{{ comment[1] }}">{{ comment[2] }}</a></strong></th>
+                        <th class="pl-0 w-25" scope="row"><strong><a
+                                href="/product/{{ comment[1] }}">{{ comment[2] }}</a></strong></th>
                         <td>{{ comment[0] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if 'bids' in user and user['bids']|length > 0 %}
+            <h2>Bids</h2>
+            <table class="table table-borderless">
+                <tbody>
+                {% for bid in user['bids'] %}
+                    <tr>
+                        <th class="pl-0 w-25" scope="row"><strong><a
+                                href="/product/{{ bid[0] }}">{{ bid[1] }}</a></strong></th>
+                        <td>{{ bid[2] }}</td>
+                        <td>${{ bid[3] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if 'items' in user and user['items']|length > 0 %}
+            <h2>Items Listed</h2>
+            <table class="table table-borderless">
+                <tbody>
+                {% for item in user['items'] %}
+                    <tr>
+                        <th class="pl-0 w-25" scope="row"><strong><a
+                                href="/product/{{ item[0] }}">{{ item[1] }}</a></strong></th>
+                        <td>{{ item[2] }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
