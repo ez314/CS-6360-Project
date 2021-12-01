@@ -6,3 +6,10 @@ function deleteNote(noteId) {
     window.location.href = "/";
   });
 }
+
+
+function dropDownElementSelect(e){
+
+    console.log("This is working")
+    document.getElementById("category").value = e.target.value
+}
