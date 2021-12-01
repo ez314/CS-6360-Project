@@ -36,7 +36,6 @@ def adminHome():
 def adminDeleteUserPage():
     # Get the queries for the tables done
     userStatement = (f'SELECT * FROM ONLINE_AUCTION.User;')
-    print("Inside")
 
     userQuery = database.db.session.execute(text(userStatement)).all()
 
@@ -48,7 +47,6 @@ def adminDeleteUserPage():
 
     if request.method == "POST":
         try:
-            print("Try")
             if request.form['id']:
                 user_id = request.values.get('id')
                 user_id = int(user_id)
@@ -92,9 +90,11 @@ def adminDeleteItemPage():
     if request.method == "POST":
         try:
             if request.form['id']:
-                print(request.form["id"])
-                statement = (f'DELETE FROM ONLINE_AUCTION.Item WHERE ItemID = {request.form["id"]};')
-                database.db.session.execute(text(statement)).all()
+                user_id = request.values.get('id')
+                user_id = int(user_id)
+                statement = (f'DELETE FROM ONLINE_AUCTION.Item WHERE ItemID = {user_id};')
+                database.db.session.execute(text(statement))
+                database.db.session.commit()
 
                 # Redo query for items to show that item has been successfully deleted
                 itemQuery = database.db.session.execute(text(itemStatement)).all()
@@ -108,7 +108,8 @@ def adminDeleteItemPage():
             else:
                 return render_template("adminDeleteItemPage.html", itemHeadings=itemHeadings, itemData=itemData, info="No Entered Item")
 
-        except Exception:
+        except Exception as e:
+            print(e)
             return render_template("adminDeleteItemPage.html", itemHeadings=itemHeadings, itemData=itemData, info="Failed to Delete item")
 
     # Simply render the page
