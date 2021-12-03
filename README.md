@@ -2,7 +2,9 @@
 Online auction site for CS 6360
 
 ## How to Run
-1. Install python 3.
+Everything below should be run in the `project` directory.
+
+1. Install Python 3.
 2. Install pip and set the path of the pip. 
 3. Execute: `pip install -r requirements.txt`. 
 4. Download the github repository: `git clone https://github.com/ez314/CS-6360-Project.git`. 
@@ -11,7 +13,7 @@ Online auction site for CS 6360
 7. Navigate to http://localhost:5000
 
 ## Configuration
-Right now, the config file just contains information for connecting to the local MySQL database. 
+The config file contains information for connecting to the local MySQL database. 
 
 1. Create a duplicate of `config.example.json` called `config.json`.  
 2. Fill in the configuration values to fit your MySQL setup.
