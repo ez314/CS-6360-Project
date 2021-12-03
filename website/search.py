@@ -118,13 +118,13 @@ def search_Category():
         print(query_item)
         # get Item Tuple
         if categoryName == 'All':
-            statement= (f'''SELECT Item.ItemID, Item.Name, Item.Description, Item.Photo, Item.StartingBid, Item.BidIncrement, 
-                Item.StartDate, Item.EndDate, Item.SellerID 
-                FROM Item 
-                WHERE lower(Item.name) LIKE lower("%{query_item}%") OR lower(Item.description) LIKE lower("%{query_item}%")
-                and Item.EndDate > CURRENT_DATE() and Item.IsActive
+            statement= (f'''SELECT Item.ItemID, Item.Name, Item.Description, Item.Photo, Item.StartingBid, Item.BidIncrement,
+                Item.StartDate, Item.EndDate, Item.SellerID
+                FROM Item
+                WHERE (lower(Item.name) LIKE lower("%{query_item}%") OR lower(Item.description) LIKE lower("%{query_item}%")) and Item.EndDate > CURRENT_DATE() and Item.IsActive
                 Group by Item.ItemID
-                ORDER BY Item.EndDate;;''')
+                ORDER BY Item.EndDate;
+                ''')
         else:
             statement = (f'''SELECT Item.ItemID, Item.Name, Item.Description, Item.Photo, Item.StartingBid, Item.BidIncrement, 
                 Item.StartDate, Item.EndDate, Item.SellerID
