@@ -8,7 +8,7 @@ Online auction site for CS 6360
 4. Download the github repository: `git clone https://github.com/ez314/CS-6360-Project.git`. 
 5. [Create `config.json`](#configuration)
 6. Execute main.py: `python main.py` (or use `python3` if `python` links to Python 2)
-7. 
+7. Navigate to http://localhost:5000
 
 ## Configuration
 Right now, the config file just contains information for connecting to the local MySQL database. 
