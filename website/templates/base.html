@@ -39,9 +39,9 @@
                 <select name="category" id="category" class="form-control form-select form-select-sm my-1 mr-2"
                         aria-label="searchDropdownDescription .form-select-lg example">
                     <option value="All">All</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Good Stuff">Good Stuff</option>
+                    {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
                 </select>
                 <input class="form-control mr-sm-2 my-1" type="search" placeholder="Search an item"
                        aria-label="Search" id='query' name='query'>

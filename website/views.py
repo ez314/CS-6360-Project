@@ -10,7 +10,15 @@ def home():
     # # Redirect to login if not already logged in
     # if 'login.id' not in session:
     #     return redirect(url_for('auth.login'))
-    return render_template("home.html")
+    statement = (f'SELECT * FROM Category;')
+    category_query = database.db.session.execute(text(statement)).all()
+    categories = []
+    if category_query:
+        for item in category_query:
+            #categories_details = item._asdict()
+            categories.append(item['Name'])
+    print(categories)
+    return render_template("home.html", categories = categories)
 
 
 @views.route('/adminHome')
